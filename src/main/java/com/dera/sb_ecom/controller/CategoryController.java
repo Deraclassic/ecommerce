@@ -11,23 +11,24 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("api/public/categories")
+    @GetMapping("/public/categories")
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
         return new ResponseEntity<> (categories, HttpStatus.OK);
     }
 
-    @PostMapping("api/public/categories")
+    @PostMapping("/public/categories")
     public ResponseEntity<String> createCategory(@RequestBody Category category) {
         categoryService.createCategory(category);
-        return new ResponseEntity<>("Category created", HttpStatus.CREATED) ;
+        return new ResponseEntity<>("Category with name " + category.getCategoryName() + " has been created", HttpStatus.CREATED) ;
     }
 
-    @DeleteMapping("api/admin/categories/{categoryId}")
+    @DeleteMapping("/admin/categories/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
         try {
             String status = categoryService.deleteCategory(categoryId);
@@ -37,9 +38,9 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("api/public/categories/{categoryId}")
+    @PutMapping("/public/categories/{categoryId}")
     public ResponseEntity<String> createCategory(@RequestBody Category category, @PathVariable Long categoryId) {
         categoryService.updateCategory(category, categoryId);
-        return new ResponseEntity<>("Category updated", HttpStatus.CREATED) ;
+        return new ResponseEntity<>("Category was updated with name " + category.getCategoryName(), HttpStatus.CREATED) ;
     }
 }
