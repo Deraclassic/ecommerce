@@ -2,6 +2,7 @@ package com.dera.sb_ecom.controller;
 
 import com.dera.sb_ecom.model.Category;
 import com.dera.sb_ecom.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CategoryController {
     }
 
     @PostMapping("/public/categories")
-    public ResponseEntity<String> createCategory(@RequestBody Category category) {
+    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
         categoryService.createCategory(category);
         return new ResponseEntity<>("Category with name " + category.getCategoryName() + " has been created", HttpStatus.CREATED) ;
     }
@@ -39,7 +40,7 @@ public class CategoryController {
     }
 
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<String> createCategory(@RequestBody Category category, @PathVariable Long categoryId) {
+    public ResponseEntity<String> updateCategory(@Valid @RequestBody Category category, @PathVariable Long categoryId) {
         categoryService.updateCategory(category, categoryId);
         return new ResponseEntity<>("Category was updated with name " + category.getCategoryName(), HttpStatus.CREATED) ;
     }
